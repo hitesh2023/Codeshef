@@ -1,0 +1,43 @@
+#include <iostream>
+#define ll long long
+#define N 10001
+
+int maze[N][N],path[N][N], n ,count =0;;
+using namespace std;
+
+void printPath(int n ,int x ,int y)
+{
+    if(x == n-1 && y ==n-1)
+    {
+        count++;
+        return;
+    }
+    if(x < 0 || y < 0 || x >=n || y >=n)
+        return;
+    if(maze[x][y] ==0 || path[x][y] == 1)
+        return;
+
+    path[x][y]=1;
+    printPath(n,x+1,y);
+    printPath(n,x-1,y);
+    printPath(n,x,y+1);
+    printPath(n,x,y-1);
+    path[x][y]=0;
+}
+void input()
+{
+    cin >> n;
+    for(int i=0 ; i<n ; i++)
+        for(int j=0 ; j<n ; j++)
+          cin >> maze[i][j];
+
+
+    printPath(n,0,0);
+    cout << count << endl;
+    count=0;
+}
+int main()
+{
+     input();
+     input();
+}
