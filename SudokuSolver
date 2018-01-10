@@ -1,0 +1,139 @@
+#include <bits/stdc++.h>
+#include<stdlib.h>
+#define pb push_back
+#define pp pair
+#define mp make_pair
+#define mod 100000
+#define ll long long
+#define pie 3.141592653589793
+#define sc(a) scanf("%c",&a)
+#define si(a) scanf("%d",&a)
+#define ss(a) scanf("%s",a)
+#define sl(a) scanf("%lld",&a)
+#define all(c) c.begin(), c.end()
+#define pi(a) printf("%d",a)
+#define pc(a) printf("%c",a)
+#define pl(a) printf("%lld",a)
+#define ps(a) printf("%s",a)
+#define F first
+#define S second
+#define INF 0x3f3f3f3f
+#define FOR(i,j,k,in) for(ll i=j ; i<k ; i=i+in)
+#define RFOR(i,j,k,dc) for(ll i=j ; i>=k; i=i-dc)
+#define N 1001
+using namespace std;
+ll sud[N][N],n ,test;
+bool flag;
+
+bool rowPlaced(int row ,int val)
+{
+    FOR(i,0,n,1)
+    {
+        if(sud[row][i] == val)
+            return false;
+    }
+    return true;
+}
+
+bool colPlaced(int col ,int val)
+{
+    FOR(i,0,n,1)
+    {
+        if(sud[i][col] == val)
+            return false;
+    }
+    return true;
+}
+
+bool blockPlaced(int row,int col ,int val)
+{
+    int rows = row-row%2;
+    int cols = col-col%2;
+    FOR(i,rows,rows+sqrt(n),1)
+    {
+        FOR(j,cols,cols+sqrt(n),1)
+        {
+            if(sud[i][j] == val)
+                return false;
+        }
+    }
+    return true;
+}
+bool canPlaced(int r ,int c , int val)
+{
+    if(!rowPlaced(r,val))
+        return false;
+    if(!colPlaced(c,val))
+        return false;
+    if(!blockPlaced(r,c,val))
+        return false;
+
+    return true;
+}
+bool printSudo()
+{
+    bool flag =false;
+    int r =-1, c=-1;
+    FOR(i,0,n,1)
+    {
+        FOR(j,0,n,1)
+        {
+            if(sud[i][j] == 0)
+            {
+                flag = true;
+                r = i;
+                c  =j;
+                break;
+            }
+        }
+        if(flag)
+            break;
+    }
+    if(!flag)
+    {
+        FOR(i,0,n,1)
+        {
+            FOR(j,0,n,1)
+             {
+                 cout << sud[i][j] << " ";
+             }
+             cout << endl;
+        }
+        return true;
+    }
+    FOR(i,1,n+1,1)
+    {
+        if(canPlaced(r,c,i))
+        {
+            sud[r][c]=i;
+            if(printSudo())
+                 return true;
+        }
+       sud[r][c]=0;
+    }
+    return false;
+}
+void input()
+{
+    cin >> n;
+    FOR(i,0,n,1)
+        FOR(j,0,n,1)
+           sl(sud[i][j]);
+
+
+    printSudo();
+}
+
+int main()
+{
+    std:ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	cin >> test;
+	while(test--)
+    {
+      input();
+    }
+
+   return 0;
+}
