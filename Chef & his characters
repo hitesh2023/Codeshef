@@ -1,0 +1,109 @@
+
+#include <bits/stdc++.h>
+#include<stdlib.h>
+#define pb push_back
+#define pp pair
+#define mp make_pair
+#define mod 100000
+#define ll long long
+#define pie 3.141592653589793
+#define sc(a) scanf("%c",&a)
+#define si(a) scanf("%d",&a)
+#define ss(a) scanf("%s",a)
+#define sl(a) scanf("%lld",&a)
+#define all(c) c.begin(), c.end()
+#define pi(a) printf("%d",a)
+#define pc(a) printf("%c",a)
+#define pl(a) printf("%lld",a)
+#define ps(a) printf("%s",a)
+#define F first
+#define S second
+#define INF 0x3f3f3f3f
+#define FOR(i,j,k,in) for(ll i=j ; i<k ; i=i+in)
+#define RFOR(i,j,k,dc) for(ll i=j ; i>=k; i=i-dc)
+#define gc getchar_unlocked
+#define pc putchar_unlocked
+inline void read_in(ll& x)
+{
+    register char c = gc();
+    while (c < '0' || c > '9')
+        c = gc();
+
+    x = 0;
+    while (c >= '0' && c <= '9') {
+        x = 10 * x + c - 48;
+        c = gc();
+    }
+}
+
+inline void read_out(ll& b)
+{
+    char snum[12];
+    ll i = 0;
+    do {
+        snum[i++] = b % 10 + '0';
+        b = b / 10;
+    } while (b);
+    i = i - 1;
+
+    while (i >= 0) {
+        pc(snum[i--]);
+    }
+}
+template<typename T> T gcd(T a, T b){return (b?__gcd(a,b):a);}
+template<typename T> T lcm(T a, T b){return (a*(b/gcd(a,b)));}
+template<typename T> T max(T a, T b){return (a>b) ? a : b ;}
+template<typename T> T min(T a, T b){return (a<b) ? a : b ;}
+using namespace std;
+
+
+bool compare(map<char , ll> & text ,map<char , ll> & pattern )
+{
+    for(auto i1 = begin(pattern) ; i1 != end(pattern) ; i1++) {
+
+        if(pattern[i1->first] != text[i1->first]) {
+            return false;
+        }
+    }
+    return true;
+}
+string str;
+int main()
+{
+
+    map <char , ll> pattern;
+    pattern['c'] =1;
+    pattern['h'] =1;
+    pattern['e'] =1;
+    pattern['f'] =1;
+
+    ll test;
+    sl(test);
+    while(test--)
+    {
+        map <char , ll> text;
+        ll c=0;
+        cin >> str;
+        ll j=0;
+        text[str[j]]++;
+        text[str[j+1]]++;
+        text[str[j+2]]++;
+        FOR(i,3,str.size(),1)
+        {
+            text[str[i]]++;
+
+            if(compare(text , pattern)) {
+                c++;
+            }
+
+
+            text[str[i-3]]--;
+        }
+        if(c == 0)
+            cout << "normal\n";
+        else
+            cout << "lovely "<<c <<"\n";
+
+    }
+    return 0;
+}
