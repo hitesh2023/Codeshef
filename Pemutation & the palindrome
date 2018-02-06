@@ -1,0 +1,116 @@
+#include <bits/stdc++.h>
+#include<stdlib.h>
+#define pb push_back
+#define pp pair
+#define mp make_pair
+#define mod 100000
+#define ll long long
+#define pie 3.141592653589793
+#define sc(a) scanf("%c",&a)
+#define si(a) scanf("%d",&a)
+#define ss(a) scanf("%s",a)
+#define sl(a) scanf("%lld",&a)
+#define all(c) c.begin(), c.end()
+#define pi(a) printf("%d",a)
+#define pc(a) printf("%c",a)
+#define pl(a) printf("%lld",a)
+#define ps(a) printf("%s",a)
+#define F first
+#define S second
+#define INF 0x3f3f3f3f
+#define FOR(i,j,k,in) for(int i=j ; i<k ; i=i+in)
+using namespace std;
+int main()
+{
+   ll test;
+   sl(test);
+   while(test--)
+   {
+       map <char , ll> mp;
+       string str;
+       cin >> str;
+
+       const ll len = str.length();
+       multimap<char,ll> multimp;
+
+       FOR(i,0,len,1)
+       {
+           mp[str.at(i)]++;
+           multimp.insert(pair<char,ll>(str[i],i+1));
+       }
+
+       string out= str;
+       ll low = 0 , high  =len-1;
+       ll mid = len/2;
+
+
+         for(auto i1 = begin(mp) ; i1 != end(mp) ; ++i1)
+         {
+             if(mp[i1->first]% 2 == 0 && mp[i1->first]!= 0)
+             {
+                while(mp[i1->first] != 0)
+                {
+                   out[low] = i1->first;
+                   out[len-low-1] = i1->first;
+                   mp[i1->first] -= 2 ;
+                   low++;
+                }
+
+             }
+             else {
+                    out[mid] = i1->first;
+                    mp[i1->first]--;
+                    ll ct =1;
+                     while(mp[i1->first] != 0)
+                    {
+                      out[mid-ct] = i1->first;
+                      out[mid+ct] = i1->first;
+                      mp[i1->first] -=2 ;
+                      ct++;
+                    }
+             }
+         }
+
+      ll l = 0 ;
+      ll h = len-1;
+      bool flag = true;
+      while(l<=h)
+      {
+          if(out[l] != out[h])
+          {
+              flag = false;
+              break;
+          }
+          l++;
+          h--;
+      }
+      if(!flag)
+        cout << "-1\n";
+      else
+      {
+         vector <ll> vtr;
+         FOR(i,0,len,1)
+         {
+             auto i1 = multimp.find(out[i]);
+             if(i1 != multimp.end()) {
+             vtr.push_back(i1->second);
+             multimp.erase(i1);
+             }
+             else {
+                flag = false;
+             }
+         }
+         if(flag) {
+            FOR(i,0,vtr.size(),1)
+              cout << vtr[i] << " ";
+         }
+         else {
+         cout << "-1";
+         }
+         cout << "\n";
+      }
+
+
+   }
+   return 0;
+}
